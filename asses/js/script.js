@@ -4,10 +4,46 @@ let task = 6
 let flag = 0
 let mode = true
 let mainBox = document.getElementById('mainBox')
-let _img1 =  document.getElementById('img1')
-let _img2 =  document.getElementById('img2')
+let _img1 = document.getElementById('img1')
+let _img2 = document.getElementById('img2')
+let _div 
 
 handleInput()
+
+//localStorage update whit click the btn
+let x = []
+function  _localStorage() { 
+  x.push(data.value)    
+  if (
+    localStorage.getItem('status') == null
+  ) {    
+    localStorage.setItem('status', JSON.stringify(x))
+  } else {
+    localStorage.removeItem('status')
+    localStorage.setItem('status', JSON.stringify(x))   
+  }
+}
+
+if(
+  JSON.parse(localStorage.getItem('status')) != null
+){
+  JSON.parse(localStorage.getItem('status')).map(val=>{
+    _img2.classList.add('hidden')
+    _div = document.createElement('div')
+    _div.classList.add('px-3', 'py-2', 'border-[##5b5b5b]', 'border-2', 'rounded-3xl', 'w-full', 'flex', 'flex-wrap', 'overflow-hidden', 'mb-2', 'box')
+    _div.innerHTML = `    
+     <i onclick='myEdit(this)' class="bi bi-pencil-fill w-[8%]  flex items-center cursor-pointer"></i>
+     <i onclick='myDel(this)' class="bi bi-trash-fill w-[8%]  flex items-center cursor-pointer"></i>
+     <div class='w-[8%] flex items-center '><input type="checkbox" class=' w-4 h-4  border-4 border-[#2d2d2d] cursor-pointer' ></div>
+     <h5  class='w-[60%] flex items-center'>${val} </h5>    
+    `
+    mainBox.appendChild(_div)   
+   task--
+   handleInput()
+  }
+  )
+}
+
 
 function myDate(s) {
   s.innerHTML = `today is  &nbsp  <span class='text-[15px] border-[#636363] border-b-2 border-dashed'> ${new Date().toDateString()} </span>`
@@ -15,6 +51,8 @@ function myDate(s) {
 
 function getDataInp() {
   if (data.value != null && data.value != '') {
+    //localStorage
+    _localStorage()
     _img2.classList.add('hidden')
     //when task 0 you can not add any more
     disAbleInp()
@@ -22,7 +60,6 @@ function getDataInp() {
     //get data
     _dataInp = data.value
     data.value = ''
-
     //creat box
     _div = document.createElement('div')
     _div.classList.add('px-3', 'py-2', 'border-[##5b5b5b]', 'border-2', 'rounded-3xl', 'w-full', 'flex', 'flex-wrap', 'overflow-hidden', 'mb-2', 'box')
@@ -32,10 +69,13 @@ function getDataInp() {
      <div class='w-[8%] flex items-center '><input type="checkbox" class=' w-4 h-4  border-4 border-[#2d2d2d] cursor-pointer' ></div>
      <h5  class='w-[60%] flex items-center'>${_dataInp} </h5>    
     `
-    mainBox.appendChild(_div)
 
+    mainBox.appendChild(_div)    
+  
+    
     //count the tasks
     task--
+    data.placeholder = `You Can Creat ${task} New Tasks`
     handleInput()
 
     //reset form validation 
@@ -101,33 +141,34 @@ function disAbleInp() {
 }
 
 //appreance the form
-function apperForm() {  
+function apperForm() {
   if (flag == 0) {
-    data.classList.add('border-[#2d2d2d]','placeholder-[#2d2d2d]')
-    data.classList.remove('border-red-600','placeholder-red-600')   
-    } else {
-    if(task != 0){
-      data.classList.remove('border-[#2d2d2d]','placeholder-[#2d2d2d]','placeholder-white')
-      data.classList.add('border-red-600','placeholder-red-600')
-      data.placeholder = 'Please Enter Your Task'    
-      }
+    data.classList.add('border-[#2d2d2d]', 'placeholder-[#2d2d2d]')
+    data.classList.remove('border-red-600', 'placeholder-red-600')
+  } else {
+    if (task != 0) {
+      data.classList.remove('border-[#2d2d2d]', 'placeholder-[#2d2d2d]', 'placeholder-white')
+      data.classList.add('border-red-600', 'placeholder-red-600')
+      data.placeholder = 'Please Enter Your Task'
+    }
   }
 }
 
- function myDarkMode(){   
-   mode = !mode
-   console.log(task);
-    if(!mode){    
-    mainBox.classList.remove('bg-white','*:text-[#2d2d2d]')
-    mainBox.classList.add('bg-[#2d2d2d]','*:text-white') 
-    data.classList.remove('placeholder-[#2d2d2d]','border-[#2d2d2d]')
-    data.classList.add('placeholder-white','border-white')
-    _img1.src = "./asses/img/Light.svg"   
-    }else{  
-    mainBox.classList.remove('bg-[#2d2d2d]','*:text-white')     
-    mainBox.classList.add('bg-white','*:text-[#2d2d2d]') 
-    data.classList.remove('placeholder-white','border-white') 
-    data.classList.add('placeholder-[#2d2d2d]','border-[#2d2d2d]') 
-    _img1.src = "./asses/img/Dark.svg"    
-    }
- }
+function myDarkMode() {
+  mode = !mode
+  console.log(task);
+  if (!mode) {
+    mainBox.classList.remove('bg-white', '*:text-[#2d2d2d]')
+    mainBox.classList.add('bg-[#2d2d2d]', '*:text-white')
+    data.classList.remove('placeholder-[#2d2d2d]', 'border-[#2d2d2d]')
+    data.classList.add('placeholder-white', 'border-white')
+    _img1.src = "./asses/img/Light.svg"
+  } else {
+    mainBox.classList.remove('bg-[#2d2d2d]', '*:text-white')
+    mainBox.classList.add('bg-white', '*:text-[#2d2d2d]')
+    data.classList.remove('placeholder-white', 'border-white')
+    data.classList.add('placeholder-[#2d2d2d]', 'border-[#2d2d2d]')
+    _img1.src = "./asses/img/Dark.svg"
+  }
+}
+
