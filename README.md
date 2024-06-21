@@ -1,4 +1,4 @@
-# ToDoList whit vanilla js
+# ToDoList in addition localStorage
 
 **Add Your Note**
 
@@ -11,7 +11,7 @@
 
 - Created - 2024-03
 
-- Technologies Used - Html , css , tailwind 
+- Technologies Used - Html , css , tailwind ,js
 
 
 - Role - Frontend
